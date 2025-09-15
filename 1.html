@@ -6,143 +6,120 @@
 <title>Minecraft Launcher Changelog</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ico8@1.1.1/ico8.min.css">
 <style>
-  /* Reset & font */
-  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
-  body { background:#fdfdfd; color:#333; overflow-x:hidden; }
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+body { background:#fdfdfd; color:#333; overflow-x:hidden; }
+body, input, textarea { user-select:text; outline:none; }
 
-  /* Sidebar */
-  .sidebar {
-    position: fixed;
-    top:0; left:0;
-    width:250px;
-    height:100vh;
-    background:#1f7a1f;
-    padding:30px 20px;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-    gap:30px;
-  }
-  .sidebar h2 {
-    color:#fff;
-    font-size:2.2em;
-    margin-bottom:10px;
-    text-align:center;
-  }
-  .sidebar nav a {
-    color:#fff;
-    text-decoration:none;
-    font-size:1.3em;
-    margin-bottom:15px;
-    display:block;
-    transition: all 0.3s;
-    padding:8px 12px;
-    border-radius:10px;
-  }
-  .sidebar nav a:hover { background:#155a15; }
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top:0; left:0;
+  width:260px;
+  height:100vh;
+  background:#1f7a1f;
+  padding:40px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  gap:40px;
+  z-index:10;
+}
+.sidebar h2 {
+  color:#fff;
+  font-size:2.6em;
+  margin-bottom:20px;
+  text-align:center;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+.sidebar nav a {
+  color:#fff;
+  text-decoration:none;
+  font-size:1.4em;
+  margin-bottom:20px;
+  display:block;
+  transition: all 0.3s;
+  padding:10px 15px;
+  border-radius:12px;
+}
+.sidebar nav a:hover { background:#155a15; }
 
-  /* Main content */
-  .main {
-    margin-left:270px;
-    padding:50px 40px;
-    max-width:900px;
-  }
+/* Main content */
+.main {
+  margin-left:280px;
+  padding:60px 50px;
+  max-width:1000px;
+}
+h1 {
+  text-align:center;
+  font-size:3.4em;
+  color:#1f7a1f;
+  margin-bottom:80px;
+  font-weight:bold;
+}
 
-  h1 {
-    text-align:center;
-    font-size:3em;
-    color:#1f7a1f;
-    margin-bottom:60px;
-    font-weight:bold;
-  }
+/* Timeline items */
+.timeline-item {
+  position:relative;
+  margin-bottom:100px;
+  opacity:0;
+  transform:translateY(50px);
+  transition: all 0.6s ease;
+  border-left:none; /* no line */
+}
+.timeline-item.show { opacity:1; transform:translateY(0); }
+.timeline-item-icon {
+  position:absolute;
+  left:0;
+  top:0;
+  width:64px;
+  height:64px;
+  background:#1f7a1f;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:4px solid #fff;
+  font-size:2em;
+  color:#fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.timeline-item h3 { font-size:2.4em; margin-bottom:25px; color:#1f7a1f; }
+.timeline-item p { color:#555; line-height:1.9; font-size:1.3em; margin-bottom:18px; }
+.timeline-item ul { margin-left:20px; margin-bottom:25px; font-size:1.2em; }
+.timeline-item ul li { margin-bottom:12px; padding-left:0; position:relative; }
 
-  /* Timeline */
-  .timeline { position:relative; padding-left:70px; }
-  .timeline::before {
-    content:'';
-    position:absolute;
-    top:0; left:40px;
-    width:8px;
-    height:100%;
-    background:#1f7a1f;
-    border-radius:4px;
-  }
-  .timeline-item {
-    position:relative;
-    margin-bottom:80px;
-    opacity:0;
-    transform:translateY(50px);
-    transition: all 0.6s ease;
-  }
-  .timeline-item.show { opacity:1; transform:translateY(0); }
-  .timeline-item-icon {
-    position:absolute;
-    left:16px;
-    top:0;
-    width:56px;
-    height:56px;
-    background:#1f7a1f;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border:4px solid #fff;
-    font-size:1.8em;
-    color:#fff;
-  }
-  .timeline-item h3 {
-    font-size:2em;
-    margin-bottom:20px;
-    color:#1f7a1f;
-  }
-  .timeline-item p {
-    color:#555;
-    line-height:1.8;
-    font-size:1.2em;
-    margin-bottom:15px;
-  }
-  .timeline-item ul { margin-left:30px; margin-bottom:20px; font-size:1.1em; }
-  .timeline-item ul li { margin-bottom:10px; padding-left:25px; position:relative; }
-  .timeline-item ul li::before {
-    content:'';
-    position:absolute;
-    left:0;
-    top:8px;
-    width:14px; height:14px;
-    background:#1f7a1f;
-    border-radius:50%;
-  }
+/* Tooltip */
+.tooltip {
+  position:relative;
+  cursor:pointer;
+  color:#1f7a1f;
+  font-weight:600;
+}
+.tooltip:hover::after {
+  content:attr(data-tip);
+  position:absolute;
+  top:-5px;
+  left:105%;
+  background:#333;
+  color:#fff;
+  padding:6px 14px;
+  border-radius:6px;
+  font-size:1em;
+  white-space:nowrap;
+  opacity:1;
+  z-index:100;
+}
+.tooltip::after { opacity:0; pointer-events:none; transition:0.3s; }
 
-  /* Tooltip */
-  .tooltip {
-    position:relative;
-    cursor:pointer;
-    color:#1f7a1f;
-    font-weight:600;
-  }
-  .tooltip:hover::after {
-    content:attr(data-tip);
-    position:absolute;
-    top:-5px;
-    left:105%;
-    background:#333;
-    color:#fff;
-    padding:6px 14px;
-    border-radius:6px;
-    font-size:1em;
-    white-space:nowrap;
-    opacity:1;
-  }
-  .tooltip::after { opacity:0; pointer-events:none; transition:0.3s; }
+/* Scrollbar */
+.main::-webkit-scrollbar { width:14px; }
+.main::-webkit-scrollbar-track { background:#f0f0f0; border-radius:8px; }
+.main::-webkit-scrollbar-thumb { background:#1f7a1f; border-radius:8px; }
 
-  /* Scrollbar */
-  .main::-webkit-scrollbar { width:12px; }
-  .main::-webkit-scrollbar-track { background:#f0f0f0; }
-  .main::-webkit-scrollbar-thumb { background:#1f7a1f; border-radius:6px; }
-
-  /* Animations */
-  .fadeIn { animation:fadeInUp 0.7s forwards; }
-  @keyframes fadeInUp { from {opacity:0; transform:translateY(50px);} to {opacity:1; transform:translateY(0);} }
+/* Animations */
+.fadeIn { animation:fadeInUp 0.7s forwards; }
+@keyframes fadeInUp { from {opacity:0; transform:translateY(50px);} to {opacity:1; transform:translateY(0);} }
 </style>
 </head>
 <body>
@@ -171,21 +148,19 @@
         <li>Implemented auto-backup of worlds before launch.</li>
         <li>Added new launcher analytics dashboard for mods installed.</li>
         <li>Integrated direct download from Mojang servers with progress bar.</li>
-        <li>Detailed changelog display in launcher with timeline view.</li>
       </ul>
-      <p><span class="tooltip" data-tip="Launcher UI updates and download manager improvements.">🎮 Launcher improvements</span>:</p>
+      <p>🎮 <strong>Launcher improvements</strong>:</p>
       <ul>
         <li>Revamped UI with white theme and smooth animations.</li>
         <li>Optimized download manager for faster updates.</li>
         <li>Auto-detect Minecraft installations and worlds.</li>
         <li>Added quick launch buttons for last played versions.</li>
       </ul>
-      <p><span class="tooltip" data-tip="Fixing all known crashes and session issues.">🐞 Bug fixes</span>:</p>
+      <p>🐞 <strong>Bug fixes</strong>:</p>
       <ul>
         <li>Fixed crash when launching modded versions.</li>
         <li>Resolved session token refresh issues for Microsoft accounts.</li>
         <li>Fixed minor UI glitches on high-DPI screens.</li>
-        <li>Stability improvements when launching multiple instances.</li>
       </ul>
     </div>
 
@@ -196,7 +171,6 @@
       <ul>
         <li>Reduced memory usage during multiple launches.</li>
         <li>Fixed downloader issues on slow connections.</li>
-        <li>Improved logging for troubleshooting.</li>
         <li>Enhanced threading for faster mod scanning.</li>
         <li>Added automatic cleanup of temp files after launch.</li>
       </ul>
@@ -205,7 +179,6 @@
         <li>Microsoft login support with 2FA.</li>
         <li>Version switching for snapshots and releases.</li>
         <li>Enhanced modpack management with auto-detect.</li>
-        <li>Quick install for popular modpacks with one click.</li>
       </ul>
     </div>
 
@@ -216,7 +189,6 @@
       <ul>
         <li>Full white theme with adaptive UI.</li>
         <li>Light/Dark toggle for preferences.</li>
-        <li>Improved tooltips for each button and option.</li>
         <li>Animated buttons and hover effects for modern look.</li>
         <li>Sidebar navigation with smooth scroll to versions.</li>
       </ul>
@@ -228,10 +200,7 @@
       <p>🚀 <strong>Initial release</strong>:</p>
       <ul>
         <li>Support for vanilla Minecraft versions.</li>
-        <li>Basic mod support via external folders.</li>
         <li>Offline & online login modes.</li>
-        <li>First stable release with launcher UI.</li>
-        <li>Basic changelog embedded for transparency.</li>
       </ul>
     </div>
 
@@ -239,16 +208,16 @@
 </div>
 
 <script>
-  const items = document.querySelectorAll('.timeline-item');
-  function showItems() {
-    const triggerBottom = window.innerHeight * 0.85;
-    items.forEach(item => {
-      const itemTop = item.getBoundingClientRect().top;
-      if(itemTop < triggerBottom) item.classList.add('show');
-    });
-  }
-  window.addEventListener('scroll', showItems);
-  window.addEventListener('load', showItems);
+const items = document.querySelectorAll('.timeline-item');
+function showItems() {
+  const triggerBottom = window.innerHeight * 0.85;
+  items.forEach(item => {
+    const itemTop = item.getBoundingClientRect().top;
+    if(itemTop < triggerBottom) item.classList.add('show');
+  });
+}
+window.addEventListener('scroll', showItems);
+window.addEventListener('load', showItems);
 </script>
 
 </body>
